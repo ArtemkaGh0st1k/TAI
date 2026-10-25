@@ -1,0 +1,30 @@
+name: Publish Lab 1
+
+on:
+  schedule:
+    - cron: '0 3 27 10 *'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Publish lab1/lab1.ipynb
+        run: |
+          git config --global user.name "ArtemkaGh0st1k"
+          git config --global user.email "artem4uk.6class.october@yandex.ru"
+          
+          git checkout origin/draft -- lab1/lab1.ipynb
+          git checkout origin/draft -- lab1/example_lr.png
+          git checkout origin/draft -- lab1/example_sr.png
+          
+          git add lab1/
+          export GIT_AUTHOR_DATE="2026-10-27T03:00:00Z"
+          export GIT_COMMITTER_DATE="2026-10-27T03:00:00Z"
+          
+          git commit -m "Add Lab 1 notebook"
+          git push origin main

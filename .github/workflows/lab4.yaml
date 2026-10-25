@@ -1,0 +1,29 @@
+name: Publish Lab 4
+
+on:
+  schedule:
+    - cron: '0 8 1 11 *'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Publish lab4/lab4.ipynb
+        run: |
+          git config --global user.name "ArtemkaGh0st1k"
+          git config --global user.email "artem4uk.6class.october@yandex.ru"
+          
+          git checkout origin/draft -- lab4/lab4.ipynb
+          git checkout origin/draft -- lab4/anomalies.csv
+          
+          git add lab4/
+          export GIT_AUTHOR_DATE="2026-11-01T08:00:00Z"
+          export GIT_COMMITTER_DATE="2026-11-01T08:00:00Z"
+          
+          git commit -m "Add Lab 4 notebook"
+          git push origin main
